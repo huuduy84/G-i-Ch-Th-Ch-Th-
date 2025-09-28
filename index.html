@@ -84,95 +84,20 @@
   <div id="password-screen" class="screen active">
     <div class="box">
       <h2>🔒 Nhập mật khẩu để mở thư</h2>
-      <input id="password-input" type="password" placeholdechị" */
-       <div id="password-error"></div>
-    <button id="password-btn">Mở thư</button>
-  </div>
-</div>
-        .text-overlay {
-            position: absolute;
-            bottom: -100px; 
-            color: white;
-            font-size: 2.5em;
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
-            opacity: 0;
-            animation: fadeIn 1s ease-in forwards;
-            animation-delay: 1.5s; /* Bắt đầu sau 1.5 giây */
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-    </style>
-    </head>
-<body>
-    <div class="container">
-        <div class="heart-grid">
-            <div class="center-icon">❤️</div>
-        </div>
-
-        <div class="text-overlay">Cho chị</div>
+      <input id="password-input" type="password" placeholder="Nhập mật khẩu...">
+      <div id="password-error"></div>
+      <button id="password-btn">Mở thư</button>
     </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const heartGrid = document.querySelector('.heart-grid');
-            const centerIcon = document.querySelector('.center-icon');
-
-            // Ma trận (matrix) mô tả hình trái tim. 1 = Có trái tim nhỏ, 0 = Không.
-            const heartShapeMatrix = [
-                [0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0],
-                [0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-                [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-                [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-                [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-            ];
-
-            const delayIncrement = 0.01; // Tốc độ xuất hiện giữa mỗi trái tim
-            let heartCount = 0;
-
-            // Ẩn biểu tượng trung tâm sau một thời gian ngắn
-            setTimeout(() => {
-                centerIcon.style.opacity = '0';
-            }, 500);
-
-            // Lặp qua ma trận để tạo các trái tim
-            heartShapeMatrix.forEach((row) => {
-                row.forEach((isHeart) => {
-                    if (isHeart === 1) {
-                        const heart = document.createElement('div');
-                        heart.classList.add('heart');
-
-                        // Gán độ trễ tự động
-                        const delay = heartCount * delayIncrement;
-                        heart.style.animationDelay = `${delay}s`;
-                        
-                        heartGrid.appendChild(heart);
-                        heartCount++; // Tăng bộ đếm để gán độ trễ cho trái tim tiếp theo
-                    } else {
-                        // Tạo một ô trống để giữ hình dạng lưới
-                        const emptyCell = document.createElement('div');
-                        // Đảm bảo kích thước khớp với .heart
-                        emptyCell.style.width = '35px'; 
-                        emptyCell.style.height = '35px'; 
-                        heartGrid.appendChild(emptyCell);
-                    }
-                });
-            });
-        });
-    </script>
-    </body>
-</html>
-
+  <!-- Màn hình trái tim -->
+  <div id="hearts-screen" class="screen">
+    <div class="box">
+      <div class="hearts">🌷💖🌷💗🌷💞</div>
+      <h2>Bấm tiếp tục đi Thỏ 🐰</h2>
+      <button onclick="goTo('letter-screen')">Tiếp tục</button>
+    </div>
+  </div>
 
   <!-- Màn hình bức thư -->
   <div id="letter-screen" class="screen">
@@ -281,6 +206,3 @@ Pái paiii 🌷
   </script>
 </body>
 </html>
-
-
-
