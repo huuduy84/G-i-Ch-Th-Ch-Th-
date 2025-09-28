@@ -2,255 +2,198 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>For My Thỏ 🐰</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thư gửi Thỏ 🐰</title>
   <style>
-    * {margin:0; padding:0; box-sizing:border-box;}
     body {
-      font-family: 'Comic Sans MS', cursive;
-      background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffe4e1);
-      color: #333;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffd1e4, #ffb6d5);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .screen {
+      display: none;
       text-align: center;
-      overflow: hidden;
+      animation: fade 0.8s ease;
     }
-    .hidden {display:none;}
-
-    /* Hiệu ứng fade */
-    .fade {animation: fadeIn 1s;}
-    @keyframes fadeIn {
-      from {opacity:0; transform: scale(0.9);}
-      to {opacity:1; transform: scale(1);}
+    .active {
+      display: block;
     }
-
-    /* Màn hình mật khẩu */
-    #password-screen {
-      height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    #password-input {
-      padding:10px;
-      border-radius:12px;
-      border:2px solid #fff;
-      font-size:18px;
-      text-align:center;
-      outline:none;
+    .box {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     }
-    #password-btn {
-      margin-top:15px;
-      padding:10px 20px;
-      background:#ff69b4;
-      border:none;
-      border-radius:20px;
-      color:#fff;
-      font-size:18px;
-      cursor:pointer;
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 2px solid #ff9fcf;
+      text-align: center;
+      outline: none;
     }
-
-    /* Thư */
-    #letter {
-      max-width: 600px;
-      margin:50px auto;
-      padding:20px;
-      background:#fff0f5;
-      border-radius:20px;
-      box-shadow:0 4px 15px rgba(0,0,0,0.2);
-      line-height:1.6;
-    }
-
-    /* Nút */
     button {
-      margin:10px;
-      padding:10px 20px;
-      font-size:18px;
-      border:none;
-      border-radius:20px;
-      cursor:pointer;
-      transition:0.3s;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 8px;
+      transition: 0.3s;
     }
-    .btn-stay {background:#ff69b4; color:white;}
-    .btn-leave {background:#dcdcdc; color:black;}
-    .btn-next {background:#ff1493; color:white;}
-
-    /* Mini game giận/tha thứ */
-    #game button {
-      position:relative;
+    button:hover {
+      background: #ff85c1;
     }
-    #forgive {background:#ff69b4; color:white; font-size:20px;}
-    #angry {background:#ccc; color:black;}
-
-    /* Hộp quà */
-    .gifts {
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      margin-top:20px;
+    #password-error {
+      min-height: 24px;
+      margin-top: 8px;
+      font-weight: bold;
+      color: #e04f7a;
     }
-    .gift {
-      width:120px;
-      height:120px;
-      background:pink;
-      border-radius:20px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:50px;
-      cursor:pointer;
-      transition:transform 0.3s;
+    .hearts {
+      font-size: 24px;
+      animation: pulse 1.5s infinite;
     }
-    .gift:hover {transform:scale(1.1);}
-    .gift-content {
-      margin-top:10px;
-      font-size:18px;
-      font-weight:bold;
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    .letter {
+      white-space: pre-line;
+      text-align: left;
+      line-height: 1.6;
     }
   </style>
 </head>
 <body>
 
   <!-- Màn hình nhập mật khẩu -->
-  <div id="password-screen" class="fade">
-    <h2>🔒 Nhập mật khẩu để mở 💌</h2>
-    <input id="password-input" type="password" placeholder="Nhập mật khẩu...">
-    <button id="password-btn">Mở</button>
-    <p id="password-error" style="color:red; margin-top:10px;"></p>
-  </div>
-
-  <!-- Phần trái tim + tiếp tục -->
-  <div id="hearts-screen" class="hidden fade">
-    <h2>❤️ Những trái tim dành cho Thỏ 🐰</h2>
-    <p>(Hiệu ứng trái tim nhỏ ghép thành trái tim lớn...)</p>
-    <button class="btn-next" onclick="goToLetter()">Tiếp tục</button>
-  </div>
-
-  <!-- Bức thư -->
-  <div id="letter-screen" class="hidden fade">
-    <div id="letter">
-      <h3>Thư gửi chị Trần Thị Phương Thảo (Thỏ 🐰)</h3>
-      <p>Haizz… Em lại làm chị giận nữa òi 😞<br>
-      Khi chị đọc thư này chắc chị vẫn còn đang giận em lắm ha 🥲<br>
-      Hong biết đây là lần thứ bao nhiêu trong tháng ròi ấy nhờ… haha.<br>
-      Nếu phải liệt kê thì tài năng của em chắc là làm cho chị giận ròi 😅</p>
-
-      <p>Đã vậy cả tối em còn bỏ mặc chị nữa… Thật là tồi tệ, xứng đáng bị xử trảm 😔</p>
-
-      <p>Cũng như mọi lần, em luôn sẽ cho chị được lựa chọn.<br>
-      Sau bao nhiêu thứ em làm khiến chị buồn như vậy thì chị sẽ...</p>
-    </div>
-    <button class="btn-stay" onclick="chooseStay()">Tiếp tục ở lại</button>
-    <button class="btn-leave" onclick="chooseLeave()">Rời đi</button>
-  </div>
-
-  <!-- Nếu ở lại -->
-  <div id="stay-screen" class="hidden fade">
-    <div id="letter">
-      <p>Vậy ra chị chọn vẫn sẽ ở lại à 😊. Thật tốt quá, em cứ tưởng mình bị vứt bỏ đi rồi chứ.<br>
-      Em biết mình vẫn là một đứa tồi tệ, còn nhiều điều chưa tốt cần phải sửa nhiều, nhưng em cũng sẽ cố gắng mà.<br>
-      Nên là tha thứ cho em lần này nhaa, em biết lỗi ròi, em đã thực sự hối lỗi rồi, em hong dám nữa đâu.<br>
-      Em xin lỗi chị nhiều ❤️</p>
-    </div>
-    <button class="btn-next" onclick="goToGame()">Tiếp theo</button>
-  </div>
-
-  <!-- Nếu rời đi -->
-  <div id="leave-screen" class="hidden fade">
-    <div id="letter">
-      <p>Ra lựa chọn của chị là rời đi à ☺️<br>
-      Em biết sớm muộn gì cũng có ngày này mà.<br>
-      Em biết thời gian qua chị đã chịu ấm ức nhiều lắm rồi.<br>
-      Cảm ơn đã dành nhiều thời gian và ý tốt cho em nha.<br>
-      Em xin lỗi vì mọi chuyện.<br>
-      Pái paiii 🌷</p>
+  <div id="password-screen" class="screen active">
+    <div class="box">
+      <h2>🔒 Nhập mật khẩu để mở thư</h2>
+      <input id="password-input" type="password" placeholder="Nhập mật khẩu...">
+      <div id="password-error"></div>
+      <button id="password-btn">Mở thư</button>
     </div>
   </div>
 
-  <!-- Mini game giận - tha thứ -->
-  <div id="game" class="hidden fade">
-    <h2>Chị có tha lỗi cho em hong? 🥺</h2>
-    <button id="forgive" onclick="goToGifts()">Tha thứ 💖</button>
-    <button id="angry" onclick="moveAngry()">Giận mãi mãi 😡</button>
-  </div>
-
-  <!-- Hộp quà -->
-  <div id="gift-screen" class="hidden fade">
-    <h2>🎁 Chọn 1 món quà cho chị 🐰</h2>
-    <div class="gifts">
-      <div class="gift" onclick="openGift(1)">🎀</div>
-      <div class="gift" onclick="openGift(2)">🎀</div>
-      <div class="gift" onclick="openGift(3)">🎀</div>
-      <div class="gift" onclick="openGift(4)">🎀</div>
+  <!-- Màn hình trái tim -->
+  <div id="hearts-screen" class="screen">
+    <div class="box">
+      <div class="hearts">❤️💖💕💗💓💞</div>
+      <h2>Những trái tim dành cho Thỏ 🐰</h2>
+      <button onclick="goTo('letter-screen')">Tiếp tục</button>
     </div>
-    <div id="gift-result"></div>
   </div>
 
-  <!-- Kết thúc -->
-  <div id="end-screen" class="hidden fade">
-    <h2>🌷 Tha thứ ròi là hong có dận nữa nhaa 🥰🌷</h2>
+  <!-- Màn hình bức thư -->
+  <div id="letter-screen" class="screen">
+    <div class="box">
+      <h2>Thư gửi chị Trần Thị Phương Thảo (Thỏ 🐰)</h2>
+      <div class="letter">
+Haizz… Em lại làm chị giận nữa òi 😞  
+Khi chị đọc thư này chắc chị vẫn còn đang giận em lắm ha 🥲  
+Hong biết đây là lần thứ bao nhiêu trong tháng ròi ấy nhờ… haha.  
+Nếu phải liệt kê thì tài năng của em chắc là làm cho chị giận ròi 😅  
+
+Đã vậy cả tối em còn bỏ mặc chị nữa… Thật là tồi tệ, xứng đáng bị xử trảm 😔  
+
+Cũng như mọi lần, em luôn sẽ cho chị được lựa chọn.  
+Sau bao nhiêu thứ em làm khiến chị buồn như vậy…  
+      </div>
+      <div style="margin-top:16px;">
+        <button onclick="goTo('stay-screen')">Ở lại 💖</button>
+        <button onclick="goTo('leave-screen')">Rời đi 💔</button>
+      </div>
+    </div>
   </div>
 
-<script>
-  const passwordBtn = document.getElementById("password-btn");
-  passwordBtn.addEventListener("click", ()=>{
-    const val = document.getElementById("password-input").value;
-    if(val==="0411"){
-      document.getElementById("password-screen").classList.add("hidden");
-      document.getElementById("hearts-screen").classList.remove("hidden");
-    } else {
-      document.getElementById("password-error").innerText="Sai mật khẩu òi 😢";
+  <!-- Màn hình ở lại -->
+  <div id="stay-screen" class="screen">
+    <div class="box">
+      <h2>💖 Cảm ơn chị đã ở lại 💖</h2>
+      <p>
+Chị biết hong, mỗi lần em làm chị buồn là em lại tự trách mình nhiều lắm.  
+Nhưng mà thật sự… em thương chị nhiều lắm, em hong muốn mất chị đâu.  
+Cảm ơn chị vì đã không bỏ em đi. 🥰  
+      </p>
+    </div>
+  </div>
+
+  <!-- Màn hình rời đi -->
+  <div id="leave-screen" class="screen">
+    <div class="box">
+      <h2>💔 Nếu chị chọn rời đi...</h2>
+      <p>
+Có lẽ em sẽ buồn nhiều lắm…  
+Nhưng dù vậy, em vẫn chúc chị luôn hạnh phúc,  
+và luôn nhớ rằng em từng thương chị nhiều đến thế nào. 😔  
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Điều khiển màn hình
+    function goTo(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
-  });
 
-  function goToLetter(){
-    document.getElementById("hearts-screen").classList.add("hidden");
-    document.getElementById("letter-screen").classList.remove("hidden");
-  }
+    // Xử lý mật khẩu
+    (function(){
+      const CORRECT = '0411';
+      let attempts = 0;
 
-  function chooseStay(){
-    document.getElementById("letter-screen").classList.add("hidden");
-    document.getElementById("stay-screen").classList.remove("hidden");
-  }
-  function chooseLeave(){
-    document.getElementById("letter-screen").classList.add("hidden");
-    document.getElementById("leave-screen").classList.remove("hidden");
-  }
+      const inputEl = document.getElementById('password-input');
+      const btnEl = document.getElementById('password-btn');
+      const errEl = document.getElementById('password-error');
 
-  function goToGame(){
-    document.getElementById("stay-screen").classList.add("hidden");
-    document.getElementById("game").classList.remove("hidden");
-  }
+      function setError(msg){
+        errEl.textContent = msg;
+      }
+      function clearError(){
+        errEl.textContent = '';
+      }
+      function success(){
+        clearError();
+        goTo('hearts-screen');
+      }
+      function check(){
+        const v = inputEl.value.trim();
+        attempts++;
+        if(v === CORRECT){
+          success();
+        } else {
+          if(attempts === 1){
+            setError('Sai òi, nhập lại đi 😅');
+          } else if(attempts === 2){
+            setError('Cố lên, sắp đúng ròi 💪');
+          } else {
+            setError('Vẫn sai đó, kiểm tra lại nha.');
+          }
+          inputEl.value = '';
+          inputEl.focus();
+        }
+      }
 
-  function moveAngry(){
-    const angryBtn = document.getElementById("angry");
-    angryBtn.style.position="absolute";
-    angryBtn.style.top = Math.random()*300+"px";
-    angryBtn.style.left = Math.random()*300+"px";
-    const forgiveBtn = document.getElementById("forgive");
-    forgiveBtn.style.transform="scale(1.2)";
-  }
-
-  function goToGifts(){
-    document.getElementById("game").classList.add("hidden");
-    document.getElementById("gift-screen").classList.remove("hidden");
-  }
-
-  function openGift(num){
-    let text="";
-    if(num===1) text="💐 Một bó hoa thật đẹp";
-    if(num===2) text="🧸 Một con gấu bông thật dễ thương";
-    if(num===3) text="🍽️ Đi ăn thật ngon";
-    if(num===4) text="🎉 Đi chơiiii";
-    document.getElementById("gift-result").innerHTML=`
-      <div class="gift-content">${text}</div>
-      <button class="btn-next" onclick="end()">Chọn món này</button>
-    `;
-  }
-
-  function end(){
-    document.getElementById("gift-screen").classList.add("hidden");
-    document.getElementById("end-screen").classList.remove("hidden");
-  }
-</script>
-
+      btnEl.addEventListener('click', check);
+      inputEl.addEventListener('keydown', function(e){
+        if(e.key === 'Enter') check();
+      });
+    })();
+  </script>
 </body>
 </html>
