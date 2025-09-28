@@ -191,7 +191,7 @@ Pái paiii 🌷
           } else if(attempts === 2){
             setError('Cố lên, sắp đúng ròi 💪');
           } else {
-            setError('Vẫn sai đó, kiểm tra lại nha.');
+            setError('Vẫn sai nhập mật khẩu khác thử .');
           }
           inputEl.value = '';
           inputEl.focus();
@@ -205,4 +205,93 @@ Pái paiii 🌷
     })();
   </script>
 </body>
+  <!-- Mini game giận - tha thứ -->
+  <div id="game" class="hidden fade">
+    <h2>Chị có tha lỗi cho em hong? 🥺</h2>
+    <button id="forgive" onclick="goToGifts()">Tha thứ 💖</button>
+    <button id="angry" onclick="moveAngry()">Giận mãi mãi 😡</button>
+  </div>
+
+  <!-- Hộp quà -->
+  <div id="gift-screen" class="hidden fade">
+    <h2>🎁 Chọn 1 món quà cho chị 🐰</h2>
+    <div class="gifts">
+      <div class="gift" onclick="openGift(1)">🎀</div>
+      <div class="gift" onclick="openGift(2)">🎀</div>
+      <div class="gift" onclick="openGift(3)">🎀</div>
+      <div class="gift" onclick="openGift(4)">🎀</div>
+    </div>
+    <div id="gift-result"></div>
+  </div>
+
+  <!-- Kết thúc -->
+  <div id="end-screen" class="hidden fade">
+    <h2>🌷 Tha thứ ròi là hong có dận nữa nhaa 🥰🌷</h2>
+  </div>
+
+<script>
+  const passwordBtn = document.getElementById("password-btn");
+  passwordBtn.addEventListener("click", ()=>{
+    const val = document.getElementById("password-input").value;
+    if(val==="0411"){
+      document.getElementById("password-screen").classList.add("hidden");
+      document.getElementById("hearts-screen").classList.remove("hidden");
+    } else {
+      document.getElementById("password-error").innerText="Sai mật khẩu òi 😢";
+    }
+  });
+
+  function goToLetter(){
+    document.getElementById("hearts-screen").classList.add("hidden");
+    document.getElementById("letter-screen").classList.remove("hidden");
+  }
+
+  function chooseStay(){
+    document.getElementById("letter-screen").classList.add("hidden");
+    document.getElementById("stay-screen").classList.remove("hidden");
+  }
+  function chooseLeave(){
+    document.getElementById("letter-screen").classList.add("hidden");
+    document.getElementById("leave-screen").classList.remove("hidden");
+  }
+
+  function goToGame(){
+    document.getElementById("stay-screen").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
+  }
+
+  function moveAngry(){
+    const angryBtn = document.getElementById("angry");
+    angryBtn.style.position="absolute";
+    angryBtn.style.top = Math.random()*300+"px";
+    angryBtn.style.left = Math.random()*300+"px";
+    const forgiveBtn = document.getElementById("forgive");
+    forgiveBtn.style.transform="scale(1.2)";
+  }
+
+  function goToGifts(){
+    document.getElementById("game").classList.add("hidden");
+    document.getElementById("gift-screen").classList.remove("hidden");
+  }
+
+  function openGift(num){
+    let text="";
+    if(num===1) text="💐 Một bó hoa thật đẹp";
+    if(num===2) text="🧸 Một con gấu bông thật dễ thương";
+    if(num===3) text="🍽️ Đi ăn thật ngon";
+    if(num===4) text="🎉 Đi chơiiii";
+    document.getElementById("gift-result").innerHTML=`
+      <div class="gift-content">${text}</div>
+      <button class="btn-next" onclick="end()">Chọn món này</button>
+    `;
+  }
+
+  function end(){
+    document.getElementById("gift-screen").classList.add("hidden");
+    document.getElementById("end-screen").classList.remove("hidden");
+  }
+</script>
+
+</body>
 </html>
+
